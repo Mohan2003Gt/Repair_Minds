@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repair_minds/Providers/auth_provider.dart';
-import 'package:repair_minds/Screen/login_screen.dart';
+import 'package:repair_minds/Screen/logs/login_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -24,7 +24,8 @@ Future<void> main() async {
       'Supabase is not initialized. Pass --dart-define=SUPABASE_URL=... --dart-define=SUPABASE_ANON_KEY=...',
     );
   }
-   runApp(
+
+  runApp(
     MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => AuthProvider())],
       child: const MyApp(),
@@ -42,6 +43,13 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: LoginScreen());
+    return MaterialApp(
+      builder: (context, child) {
+        return SafeArea(
+          child: child!,
+        );
+      },
+      home: const LoginScreen(),
+    );
   }
 }
