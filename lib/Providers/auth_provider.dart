@@ -27,7 +27,9 @@ class AuthProvider extends ChangeNotifier {
   Future signUp({
     required String firstName,
     required String lastName,
-    required int age,
+    required String place,
+    required String domain,
+    required String bio,
     required String username,
     required String email,
     required String password,
@@ -35,8 +37,10 @@ class AuthProvider extends ChangeNotifier {
     return await _authService.signUp(
       firstName: firstName,
       lastName: lastName,
-      age: age,
       username: username,
+      place: place,
+      domain: domain,
+      bio: bio,
       email: email,
       password: password,
     );

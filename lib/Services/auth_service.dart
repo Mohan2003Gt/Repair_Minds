@@ -19,8 +19,10 @@ class AuthService {
   Future<void> signUp({
     required String firstName,
     required String lastName,
-    required int age,
     required String username,
+    required String place,
+    required String domain,
+    required String bio,
     required String email,
     required String password,
   }) async {
@@ -38,9 +40,11 @@ class AuthService {
     await _supabase.from('User_Profiles').insert({
       'id': user.id,
       'first_name': firstName,
-      ' ': lastName,
-      'age': age,
+      'last_name': lastName,
       'username': username,
+      'place': place,
+      'domain': domain,
+      'bio': bio,
     });
   }
 }
