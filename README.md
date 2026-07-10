@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # repair_minds
 
 A new Flutter project.
@@ -15,3 +16,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# Repair_Minds
+>>>>>>> b0e4c7a7accb0344e9de8dacf7c2ad2a3e49e0b2
