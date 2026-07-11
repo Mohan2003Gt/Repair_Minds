@@ -18,7 +18,10 @@ Future<void> main() async {
   );
 
   if (supabaseUrl.isNotEmpty && supabaseAnonKey.isNotEmpty) {
-    await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
+    await Supabase.initialize(
+      url: supabaseUrl,
+      publishableKey: supabaseAnonKey,
+    );
   } else {
     debugPrint(
       'Supabase is not initialized. Pass --dart-define=SUPABASE_URL=... --dart-define=SUPABASE_ANON_KEY=...',

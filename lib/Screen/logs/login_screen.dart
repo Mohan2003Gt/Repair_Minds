@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repair_minds/Providers/auth_provider.dart';
-import 'package:repair_minds/Screen/home_screen.dart';
 import 'package:repair_minds/Screen/logs/new_user_screen.dart';
+import 'package:repair_minds/Screen/main_screens/bottom_nav_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (errorMessage == null) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
+        MaterialPageRoute(builder: (_) => const BottomNavScreen()),
       );
     } else {
       _showMessage(errorMessage);
@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   TextField(
                     controller: passwordController,
                     // 1. Change to rely on the boolean variable
-                    obscureText: !_isPasswordVisible, 
+                    obscureText: !_isPasswordVisible,
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -112,8 +112,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         // 3. Switch the icon based on the state
                         icon: Icon(
-                          _isPasswordVisible 
-                              ? Icons.visibility 
+                          _isPasswordVisible
+                              ? Icons.visibility
                               : Icons.visibility_off,
                         ),
                       ),
@@ -184,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => const NewUserScreen(),
+                              builder: (_) => const SignUpScreen(),
                             ),
                           );
                         },
@@ -198,7 +198,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const Icon(Icons.arrow_forward, color: Colors.black),
-            
                     ],
                   ),
                   SizedBox(height: 100),
