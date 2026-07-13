@@ -47,8 +47,6 @@ class AuthService {
       'bio': bio,
     });
   }
-
-  // Fetch profile method
   Future<UserProfile?> fetchUserProfile(String userId) async {
     try {
       final data = await _supabase

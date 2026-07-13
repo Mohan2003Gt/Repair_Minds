@@ -9,8 +9,8 @@ class AuthProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  UserProfile? _userProfile;
-  UserProfile? get userProfile => _userProfile;
+  UserProfile? userProfile;
+
 
   // Returns null if successful, or an error message string if it fails
   Future<String?> signIn(String email, String password) async {
@@ -20,7 +20,7 @@ class AuthProvider extends ChangeNotifier {
       
       // Populate user profile after login
       if (response.user != null) {
-        _userProfile = await _authService.fetchUserProfile(response.user!.id);
+        userProfile = await _authService.fetchUserProfile(response.user!.id);
       }
 
       _setLoading(false);
@@ -61,7 +61,7 @@ class AuthProvider extends ChangeNotifier {
       // Populate user profile after signup
       final currentUser = _authService.currentUser;
       if (currentUser != null) {
-        _userProfile = await _authService.fetchUserProfile(currentUser.id);
+        userProfile = await _authService.fetchUserProfile(currentUser.id);
       }
 
       _setLoading(false);
@@ -78,7 +78,7 @@ class AuthProvider extends ChangeNotifier {
   // Sign Out logic
   Future<void> signOut() async {
     await Supabase.instance.client.auth.signOut();
-    _userProfile = null; // Clear state on logout
+    userProfile = null; // Clear state on logout
     notifyListeners();
   }
 
