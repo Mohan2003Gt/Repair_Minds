@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:repair_minds/Screen/main_screens/home_screen.dart';
+import 'package:repair_minds/Screen/main_screens/profile_screen.dart';
+import 'package:repair_minds/Screen/main_screens/search_screen.dart';
 
 class BottomNavScreen extends StatefulWidget {
   const BottomNavScreen({super.key});
 
   @override
   State<BottomNavScreen> createState() => _BottomNavScreenState();
-  
 }
 
 class _BottomNavScreenState extends State<BottomNavScreen> {
   int _currentIndex = 0;
 
-  // These are placeholder screens. You will replace them later!
   final List<Widget> _screens = [
-    const Center(child: Text('Home Screen')),   
-    const Center(child: Text('Search Screen')), 
-    const Center(child: Text('Profile Screen')),
+    const HomeScreen(),
+    const SearchScreen(),
+    const ProfileScreen(),
   ];
   @override
   Widget build(BuildContext context) {
