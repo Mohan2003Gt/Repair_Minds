@@ -1,7 +1,9 @@
+import 'package:repair_minds/Models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService {
   final SupabaseClient _supabase = Supabase.instance.client;
+  
   Future<AuthResponse> signIn({
     required String email,
     required String password,
@@ -13,8 +15,6 @@ class AuthService {
   }
 
   User? get currentUser => _supabase.auth.currentUser;
-
-  // signup
 
   Future<void> signUp({
     required String firstName,
@@ -46,5 +46,21 @@ class AuthService {
       'domain': domain,
       'bio': bio,
     });
+  }
+
+  // Fetch profile method
+  Future<UserProfile?> fetchUserProfile(String userId) async {
+    try {
+      final data = await _supabase
+          .from('User_Profiles') 
+          .select()
+          .eq('id', userId)
+          .single();
+
+      return UserProfile.fromJson(data);
+    } catch (e) {
+      print('Error fetching profile: $e');
+      return null;
+    }
   }
 }
