@@ -24,6 +24,8 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
+        
+        showUnselectedLabels: false,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
@@ -31,7 +33,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+          BottomNavigationBarItem(icon: Icon(Icons.search,size: 30,), label: 'Search'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),

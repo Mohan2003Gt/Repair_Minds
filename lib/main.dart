@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repair_minds/Providers/auth_provider.dart';
 import 'package:repair_minds/Screen/logs/login_screen.dart';
+import 'package:repair_minds/Screen/main_screens/bottom_nav_screen.dart';
+import 'package:repair_minds/Screen/main_screens/home_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -46,13 +48,16 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    final user = Supabase.instance.client.auth.currentUser;
     return MaterialApp(
       builder: (context, child) {
         return SafeArea(
           child: child!,
         );
       },
-      home: const LoginScreen(),
+      home: user != null
+          ? const LoginScreen()
+          : const LoginScreen(),
     );
   }
 }

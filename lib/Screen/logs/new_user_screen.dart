@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repair_minds/Providers/auth_provider.dart';
+import 'package:repair_minds/Screen/logs/ac_success_screen.dart';
 // import 'auth_provider.dart'; // Ensure this points to your AuthProvider file
 
 class SignUpScreen extends StatefulWidget {
@@ -30,34 +31,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     setState(() { _isLoading = true; });
 
-    try {
-      await context.read<AuthProvider>().signUp(
-        email: _emailCtrl.text.trim(),
-        password: _passwordCtrl.text.trim(),
-        firstName: _firstNameCtrl.text.trim(),
-        lastName: _lastNameCtrl.text.trim(),
-        username: _usernameCtrl.text.trim(),
-        place: _placeCtrl.text.trim(),
-        domain: _domainCtrl.text.trim(),
-        bio: _bioCtrl.text.trim(),
-      );
+    final errorMessage = await context.read<AuthProvider>().signUp(
+      email: _emailCtrl.text.trim(),
+      password: _passwordCtrl.text.trim(),
+      firstName: _firstNameCtrl.text.trim(),
+      lastName: _lastNameCtrl.text.trim(),
+      username: _usernameCtrl.text.trim(),
+      place: _placeCtrl.text.trim(),
+      domain: _domainCtrl.text.trim(),
+      bio: _bioCtrl.text.trim(),
+    );
 
-      if (mounted) {
+    if (mounted) {
+      if (errorMessage == null) {
+        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const AcSuccessScreen(),
+                            ),
+                          );
+      } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Account Created Successfully!')),
-        );
-        // Navigator.pushReplacementNamed(context, '/home');
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
         );
       }
-    } finally {
-      if (mounted) {
-        setState(() { _isLoading = false; });
-      }
+    }
+
+    if (mounted) {
+      setState(() { _isLoading = false; });
     }
   }
 
