@@ -31,4 +31,6 @@ class UserProfile {
       bio: json['bio'],
     );
   }
+
+  Object? get createdAt => null;
 }

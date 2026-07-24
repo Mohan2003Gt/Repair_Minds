@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repair_minds/Providers/auth_provider.dart';
+import 'package:repair_minds/Providers/post_provider.dart';
+import 'package:repair_minds/Providers/profile_provider.dart';
 import 'package:repair_minds/Screen/logs/login_screen.dart';
 import 'package:repair_minds/Screen/main_screens/bottom_nav_screen.dart';
-import 'package:repair_minds/Screen/main_screens/home_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -32,7 +33,17 @@ Future<void> main() async {
 
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => AuthProvider())],
+      providers: [     ChangeNotifierProvider(
+        create: (_) => AuthProvider(),
+      ),
+
+      ChangeNotifierProvider(
+        create: (_) => ProfileProvider(),
+      ),
+
+      ChangeNotifierProvider(
+        create: (_) => PostProvider(),
+      ),],
       child: const MyApp(),
     ),
   );
@@ -56,7 +67,7 @@ class _MyAppState extends State<MyApp> {
         );
       },
       home: user != null
-          ? const LoginScreen()
+          ? const BottomNavScreen()
           : const LoginScreen(),
     );
   }

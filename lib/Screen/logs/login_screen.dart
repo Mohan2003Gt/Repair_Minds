@@ -17,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isPasswordVisible = false;
 
   Future<void> _signIn() async {
-    final email = emailController.text.trim();
+    final email = emailController.text;
     final password = passwordController.text;
 
     if (email.isEmpty || password.isEmpty) {
@@ -31,7 +31,10 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
-    final errorMessage = await authProvider.signIn(email, password);
+    final errorMessage = await authProvider.signIn(
+      email: email,
+      password: password,
+    );
 
     if (!mounted) return;
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repair_minds/Screen/main_screens/home_screen.dart';
-import 'package:repair_minds/Screen/main_screens/profile_screen.dart';
+import 'package:repair_minds/Screen/main_screens/profile/profile_screen.dart';
 import 'package:repair_minds/Screen/main_screens/search_screen.dart';
 
 class BottomNavScreen extends StatefulWidget {
