@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:repair_minds/Providers/auth_provider.dart';
 import 'package:repair_minds/Providers/profile_provider.dart';
 
-class EditProfileScreen extends StatefulWidget {
+class EditProfileScreen extends StatefulWidget {  
+
   const EditProfileScreen({super.key});
 
   @override
@@ -31,6 +31,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     domainController = TextEditingController(text: user.domain);
     placeController = TextEditingController(text: user.place);
   }
+  
 
   @override
   Widget build(BuildContext context) {

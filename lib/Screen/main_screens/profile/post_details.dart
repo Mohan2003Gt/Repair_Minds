@@ -7,6 +7,7 @@ class PostDetailsScreen extends StatelessWidget {
   final PostModel post;
 
   const PostDetailsScreen({super.key, required this.post});
+  
 
   @override
   Widget build(BuildContext context) {

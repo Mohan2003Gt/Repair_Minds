@@ -27,7 +27,7 @@ Future<void> main() async {
     );
   } else {
     debugPrint(
-      'Supabase is not initialized. Pass --dart-define=SUPABASE_URL=... --dart-define=SUPABASE_ANON_KEY=...',
+      'Supabase is not initialized',
     );
   }
 

@@ -18,9 +18,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-    await context.read<ProfileProvider>().fetchUserProfile();
-    await context.read<PostProvider>().fetchUserPosts();
-  });
+      await context.read<ProfileProvider>().fetchUserProfile();
+      if (!mounted) return;
+      await context.read<PostProvider>().fetchUserPosts();
+      
+    });
   }
 
   @override
@@ -36,14 +38,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         shadowColor: Colors.black,
         elevation: 3,
         actions: [
-          IconButton(onPressed: (){
-             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const EditProfileScreen(),
-                                ),
-                              );
-          }, icon: Icon(Icons.settings))
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const EditProfileScreen()),
+              );
+            },
+            icon: Icon(Icons.settings),
+          ),
         ],
       ),
       body: profileProvider.isLoading
@@ -237,7 +240,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ),
-
                       ],
                     ),
                     const SizedBox(height: 20),

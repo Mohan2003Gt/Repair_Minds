@@ -73,14 +73,48 @@ class PostProvider extends ChangeNotifier {
     }
   }
 
-  // Delete post
+List<PostModel> _searchResults = [];
+List<PostModel> get searchResults => _searchResults;
+
+Future<void> searchPosts(String query) async {
+  if (query.trim().isEmpty) {
+    _searchResults = [];
+    notifyListeners();
+    return;
+  }
+
+  _setLoading(true);
+
+  try {
+    _searchResults = await _postService.searchPostsByTitle(query);
+  } catch (e) {
+    debugPrint('Search Provider Error: $e');
+  }
+
+  _setLoading(false);
+}
+// 1. Add these state variables
+  List<PostModel> _feedPosts = [];
+  List<PostModel> get feedPosts => _feedPosts;
+
+  Future<void> fetchDomainPosts(String domain) async {
+    _setLoading(true);
+
+    try {
+      _feedPosts = await _postService.fetchPostsByDomain(domain);
+    } catch (e) {
+      debugPrint('Domain Provider Error: $e');
+    }
+
+    _setLoading(false);
+  }
+
   Future<void> deletePost(int postId) async {
     await _postService.deletePost(postId);
 
     _userPosts.removeWhere(
       (post) => post.id == postId,
     );
-
     notifyListeners();
   }
 }

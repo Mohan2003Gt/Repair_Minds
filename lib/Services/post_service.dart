@@ -8,10 +8,7 @@ class PostService {
 
   Future<List<PostModel>> fetchUserPosts(String userId) async {
     try {
-      final data = await _supabase
-          .from('Posts')
-          .select()
-          .eq('user_id', userId);
+      final data = await _supabase.from('Posts').select().eq('user_id', userId);
 
       return (data as List)
           .map((postJson) => PostModel.fromJson(postJson))
@@ -24,14 +21,44 @@ class PostService {
 
   Future<void> deletePost(int postId) async {
     try {
-      await _supabase
-          .from('Posts')
-          .delete()
-          .eq('id', postId);
+      await _supabase.from('Posts').delete().eq('id', postId);
 
       debugPrint('Post deleted');
     } catch (e) {
       debugPrint('Error deleting post: $e');
+    }
+  }
+
+  Future<List<PostModel>> searchPostsByTitle(String query) async {
+    try {
+      final data = await _supabase
+          .from('Posts')
+          .select()
+          .ilike('title', '%${query.trim()}%');
+
+      return (data as List)
+          .map((postJson) => PostModel.fromJson(postJson))
+          .toList();
+    } catch (e) {
+      debugPrint('Error searching posts: $e');
+      return [];
+    }
+  }
+
+  Future<List<PostModel>> fetchPostsByDomain(String domain) async {
+    try {
+      final data = await _supabase
+          .from('Posts')
+          .select()
+          .ilike('title', '%$domain%')
+          .order('created_at', ascending: false);
+
+      return (data as List)
+          .map((postJson) => PostModel.fromJson(postJson))
+          .toList();
+    } catch (e) {
+      debugPrint('Error fetching domain posts: $e');
+      return [];
     }
   }
 
@@ -48,17 +75,15 @@ class PostService {
       final fileName =
           'post-$userId-${DateTime.now().millisecondsSinceEpoch}.$fileExt';
 
-      await _supabase.storage.from('posts').upload(
-        fileName,
-        imageFile,
-        fileOptions: const FileOptions(
-          cacheControl: '3600',
-          upsert: false,
-        ),
-      );
+      await _supabase.storage
+          .from('posts')
+          .upload(
+            fileName,
+            imageFile,
+            fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
+          );
 
-      final imageUrl =
-          _supabase.storage.from('posts').getPublicUrl(fileName);
+      final imageUrl = _supabase.storage.from('posts').getPublicUrl(fileName);
 
       await _supabase.from('Posts').insert({
         'user_id': userId,
