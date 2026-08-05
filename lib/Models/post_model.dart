@@ -6,6 +6,7 @@ class PostModel {
   final String problem;
   final String imageUrl;
   final DateTime createdAt;
+  String? localImagePath;
 
   PostModel({
     required this.id,
@@ -15,6 +16,7 @@ class PostModel {
     required this.problem,
     required this.imageUrl,
     required this.createdAt,
+    this.localImagePath,
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,20 @@ class PostModel {
       createdAt: json['created_at'] != null
           ? DateTime.parse(json['created_at'])
           : DateTime.now(),
+      localImagePath: json['localImagePath'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'user_id': userId,
+      'title': title,
+      'subtitle': subtitle,
+      'problem': problem,
+      'image_url': imageUrl,
+      'created_at': createdAt.toIso8601String(),
+      'localImagePath': localImagePath,
+    };
   }
 }

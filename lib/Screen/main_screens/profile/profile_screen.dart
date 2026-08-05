@@ -21,7 +21,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       await context.read<ProfileProvider>().fetchUserProfile();
       if (!mounted) return;
       await context.read<PostProvider>().fetchUserPosts();
-      
     });
   }
 
@@ -33,7 +32,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Profile"),
+        title: const Text(
+          "Profile",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.white,
         shadowColor: Colors.black,
         elevation: 3,
@@ -42,10 +44,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const EditProfileScreen()),
+                MaterialPageRoute(builder: (context) => EditProfileScreen()),
               );
             },
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.edit),
           ),
         ],
       ),
@@ -59,12 +61,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Avatar (with Upload Trigger) and Username Row
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Stack(
+                          alignment: Alignment.center,
+
                           children: [
+                            
+
+                            CircleAvatar(
+                              radius: 52,
+                              backgroundColor: Colors.black,
+                            ),
+
                             CircleAvatar(
                               radius: 50,
                               backgroundColor: Colors.blueAccent,
@@ -77,7 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   user.avatarUrl == null ||
                                       user.avatarUrl!.isEmpty
                                   ? Text(
-                                      user.firstName
+                                      user.username
                                               ?.substring(0, 1)
                                               .toUpperCase() ??
                                           '?',
@@ -213,8 +223,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                     const SizedBox(height: 20),
-
-                    // Action Buttons
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -244,8 +252,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     const SizedBox(height: 20),
                     const Divider(),
-
-                    // User Posts Section
                     const Text(
                       "My Posts",
                       style: TextStyle(
@@ -258,7 +264,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     postProvider.isLoading
                         ? const Center(child: CircularProgressIndicator())
                         : postProvider.userPosts.isEmpty
-                        ? const Center(child: Text("No posts found."))
+                        ? const Center(
+                            child: Column(
+                              children: [
+                                SizedBox(height: 100),
+                                Text(
+                                  "No posts found",
+                                  style: TextStyle(color: Colors.grey,fontSize: 20 ),
+                                ),
+                              
+                              ],
+                            ),
+                          )
                         : GridView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
@@ -296,7 +313,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         child: Container(
                                           width: double.infinity,
                                           color: Colors.grey.shade200,
-                                          // Assuming 'imageUrl' exists in your PostModel. Adjust if named differently.
                                           child: Image.network(
                                             post.imageUrl,
                                             fit: BoxFit.cover,
@@ -306,7 +322,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          post.title, // Assuming 'title' exists in PostModel
+                                          post.title, 
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(

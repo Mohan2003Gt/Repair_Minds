@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repair_minds/Providers/auth_provider.dart';
 import 'package:repair_minds/Screen/logs/ac_success_screen.dart';
-// import 'auth_provider.dart'; // Ensure this points to your AuthProvider file
-
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -16,7 +14,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _isLoading = false;
   bool _isPasswordVisible = false;
 
-  // Controllers for the 8 required fields
   final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
   final _usernameCtrl = TextEditingController();
@@ -29,7 +26,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Future<void> _submitForm() async {
     if (!_formKey.currentState!.validate()) return;
 
-    setState(() { _isLoading = true; });
+    setState(() {
+      _isLoading = true;
+    });
 
     final errorMessage = await context.read<AuthProvider>().signUp(
       email: _emailCtrl.text.trim(),
@@ -45,11 +44,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (mounted) {
       if (errorMessage == null) {
         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const AcSuccessScreen(),
-                            ),
-                          );
+          context,
+          MaterialPageRoute(builder: (_) => const AcSuccessScreen()),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
@@ -58,7 +55,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     if (mounted) {
-      setState(() { _isLoading = false; });
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -91,7 +90,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(height: 20),
 
               // --- Auth Fields ---
-              
               TextFormField(
                 controller: _emailCtrl,
                 keyboardType: TextInputType.emailAddress,
@@ -100,35 +98,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  if (value == null || value.trim().isEmpty) return 'Please enter Email';
-                  return null;
+                  if (value == null || value.trim().isEmpty) {
+                  }
+                  return 'Please enter Email';
                 },
               ),
               const SizedBox(height: 12),
 
               TextFormField(
                 controller: _passwordCtrl,
-                obscureText: !_isPasswordVisible, 
+                obscureText: !_isPasswordVisible,
                 decoration: InputDecoration(
                   labelText: 'Password',
                   border: const OutlineInputBorder(),
-                   suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _isPasswordVisible = !_isPasswordVisible;
-                          });
-                        },
-                        // 3. Switch the icon based on the state
-                        icon: Icon(
-                          _isPasswordVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                        ),
-                      ),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                    // 3. Switch the icon based on the state
+                    icon: Icon(
+                      _isPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                  ),
                 ),
                 validator: (value) {
-                  if (value == null || value.trim().isEmpty) return 'Please enter Password';
-                  if (value.length < 6) return 'Password must be at least 6 characters';
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter Password';
+                  }
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters';
+                  }
                   return null;
                 },
               ),
@@ -141,7 +144,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(height: 12),
 
               // --- Profile Fields ---
-              
               TextFormField(
                 controller: _usernameCtrl,
                 decoration: const InputDecoration(
@@ -149,7 +151,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  if (value == null || value.trim().isEmpty) return 'Please enter Username';
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter Username';
+                  }
                   return null;
                 },
               ),
@@ -162,7 +166,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  if (value == null || value.trim().isEmpty) return 'Please enter First Name';
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter First Name';
+                  }
                   return null;
                 },
               ),
@@ -175,7 +181,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  if (value == null || value.trim().isEmpty) return 'Please enter Last Name';
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter Last Name';
+                  }
                   return null;
                 },
               ),
@@ -188,7 +196,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  if (value == null || value.trim().isEmpty) return 'Please enter Place';
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter Place';
+                  }
                   return null;
                 },
               ),
@@ -201,7 +211,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  if (value == null || value.trim().isEmpty) return 'Please enter Domain';
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter Domain';
+                  }
                   return null;
                 },
               ),
@@ -215,7 +227,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  if (value == null || value.trim().isEmpty) return 'Please enter Bio';
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter Bio';
+                  }
                   return null;
                 },
               ),
@@ -226,8 +240,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
-                child: _isLoading 
-                    ? const CircularProgressIndicator() 
+                child: _isLoading
+                    ? const CircularProgressIndicator()
                     : const Text('Sign Up', style: TextStyle(fontSize: 18)),
               ),
             ],

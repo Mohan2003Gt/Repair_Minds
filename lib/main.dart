@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:repair_minds/Providers/auth_provider.dart';
 import 'package:repair_minds/Providers/post_provider.dart';
 import 'package:repair_minds/Providers/profile_provider.dart';
+import 'package:repair_minds/Providers/saved_posts_provider.dart';
 import 'package:repair_minds/Screen/logs/login_screen.dart';
 import 'package:repair_minds/Screen/main_screens/bottom_nav_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -26,24 +27,17 @@ Future<void> main() async {
       publishableKey: supabaseAnonKey,
     );
   } else {
-    debugPrint(
-      'Supabase is not initialized',
-    );
+    debugPrint('Supabase is not initialized');
   }
 
   runApp(
     MultiProvider(
-      providers: [     ChangeNotifierProvider(
-        create: (_) => AuthProvider(),
-      ),
-
-      ChangeNotifierProvider(
-        create: (_) => ProfileProvider(),
-      ),
-
-      ChangeNotifierProvider(
-        create: (_) => PostProvider(),
-      ),],
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => SavedPostsProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileProvider()),
+        ChangeNotifierProvider(create: (_) => PostProvider()),
+      ],
       child: const MyApp(),
     ),
   );
@@ -61,14 +55,11 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final user = Supabase.instance.client.auth.currentUser;
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       builder: (context, child) {
-        return SafeArea(
-          child: child!,
-        );
+        return SafeArea(child: child!);
       },
-      home: user != null
-          ? const BottomNavScreen()
-          : const LoginScreen(),
+      home: user != null ? const BottomNavScreen() : const LoginScreen(),
     );
   }
 }

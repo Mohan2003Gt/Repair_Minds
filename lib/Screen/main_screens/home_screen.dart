@@ -18,26 +18,21 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    // Automatically load the feed when the screen opens
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _loadFeed();
     });
   }
 
-  // Helper method to fetch the domain and then the posts
   Future<void> _loadFeed() async {
     final profileProvider = context.read<ProfileProvider>();
     final postProvider = context.read<PostProvider>();
 
-    // 1. Fetch user profile if it's missing
     if (profileProvider.userProfile == null) {
       await profileProvider.fetchUserProfile();
     }
 
-    // 2. Get the domain safely
     final userDomain = profileProvider.userProfile?.domain ?? '';
 
-    // 3. Fetch feed based on domain
     if (userDomain.isNotEmpty) {
       postProvider.fetchDomainPosts(userDomain);
     }
@@ -47,14 +42,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Feed'),
+        title: const Text('My Feed',style: TextStyle(
+        fontWeight: FontWeight.bold,
+       
+        ),),
+        backgroundColor: Colors.white,
+        shadowColor: Colors.black,
+        elevation: 3,
         actions: [
-          // Listen to the ProfileProvider to get the logged-in user's details for the AppBar
           Consumer<ProfileProvider>(
             builder: (context, profileProvider, child) {
               final profile = profileProvider.userProfile;
 
-              // If the profile hasn't loaded yet, show a default loading avatar
               if (profile == null) {
                 return const Padding(
                   padding: EdgeInsets.only(right: 16.0),
@@ -66,7 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }
 
-              // Safely extract the avatar and username
               final hasAvatar =
                   profile.avatarUrl != null && profile.avatarUrl!.isNotEmpty;
               final displayName = profile.username ?? 'User';
@@ -75,7 +73,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.only(right: 16.0),
                 child: Row(
                   children: [
-                    // The Username
                     Text(
                       displayName,
                       style: const TextStyle(
@@ -111,15 +108,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: _loadFeed, // Allows pull-to-refresh
+        onRefresh: _loadFeed,
         child: Consumer<PostProvider>(
           builder: (context, provider, child) {
-            // 1. Loading State
             if (provider.isLoading) {
               return const Center(child: CircularProgressIndicator());
             }
 
-            // 2. Empty State (No posts found for this domain)
             if (provider.feedPosts.isEmpty) {
               return const Center(
                 child: Column(
@@ -135,8 +130,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             }
-
-            // 3. The Feed List
             return ListView.builder(
               itemCount: provider.feedPosts.length,
               itemBuilder: (context, index) {
@@ -168,6 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           builder: (context, snapshot) {
                             String displayName = 'Loading...';
                             String avatarUrl = '';
+                            String location ='';
                             bool hasAvatar = false;
 
                             if (snapshot.connectionState ==
@@ -175,6 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 snapshot.hasData) {
                               final profile = snapshot.data!;
                               displayName = profile.username ?? 'Unknown User';
+                              location =  profile.place ?? 'Undefind';
                               avatarUrl = profile.avatarUrl ?? '';
                               hasAvatar = avatarUrl.isNotEmpty;
                             }
@@ -210,6 +205,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Icon(Icons.location_on,color: Colors.grey.shade500,size: 20,),
+                                  Text(
+                                    location,
+                                    style: const TextStyle(
+                                      
+                                      fontSize: 12,
                                     ),
                                   ),
                                 ],

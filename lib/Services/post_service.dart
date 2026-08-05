@@ -19,16 +19,20 @@ class PostService {
     }
   }
 
-  Future<void> deletePost(int postId) async {
+ Future<void> deletePost(int postId, String imageUrl) async {
     try {
-      await _supabase.from('Posts').delete().eq('id', postId);
-
-      debugPrint('Post deleted');
+      if (imageUrl.isNotEmpty) {
+        final uri = Uri.parse(imageUrl);
+        final fileName = uri.pathSegments.last; 
+        
+        await _supabase.storage.from('post_images').remove([fileName]);
+      }
     } catch (e) {
-      debugPrint('Error deleting post: $e');
-    }
-  }
+      return;
+    } 
 
+    await _supabase.from('posts').delete().eq('id', postId);
+  }
   Future<List<PostModel>> searchPostsByTitle(String query) async {
     try {
       final data = await _supabase

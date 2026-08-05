@@ -7,7 +7,6 @@ class PostDetailsScreen extends StatelessWidget {
   final PostModel post;
 
   const PostDetailsScreen({super.key, required this.post});
-  
 
   @override
   Widget build(BuildContext context) {
@@ -70,15 +69,11 @@ class PostDetailsScreen extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () async {
-                  await context.read<PostProvider>().deletePost(post.id);
+                  context.read<PostProvider>().deletePost(post);
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red
-                ),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
 
-                child: Text("DELETE",style: TextStyle(
-                  color: Colors.white 
-                ),),
+                child: Text("DELETE", style: TextStyle(color: Colors.white)),
               ),
             ),
           ],

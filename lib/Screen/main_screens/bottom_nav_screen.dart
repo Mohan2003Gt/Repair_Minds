@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repair_minds/Screen/main_screens/home_screen.dart';
 import 'package:repair_minds/Screen/main_screens/profile/profile_screen.dart';
+import 'package:repair_minds/Screen/main_screens/saved_posts_screen.dart';
 import 'package:repair_minds/Screen/main_screens/search_screen.dart';
 
 class BottomNavScreen extends StatefulWidget {
@@ -16,6 +17,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const SearchScreen(),
+    const SavedPostsScreen(),
     const ProfileScreen(),
   ];
   @override
@@ -24,7 +26,9 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        
+        fixedColor: Colors.black,
+        unselectedItemColor: Colors.grey,
+
         showUnselectedLabels: false,
         onTap: (index) {
           setState(() {
@@ -33,7 +37,11 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search,size: 30,), label: 'Search'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search, size: 30),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.bookmark_border), label: 'Saved'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),

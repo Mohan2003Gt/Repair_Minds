@@ -55,14 +55,17 @@ class ProfileProvider extends ChangeNotifier {
   }) async {
     _setLoading(true);
 
-    await _profileService.updateProfile(
-      username: username,
-      firstName: firstName,
-      lastName: lastName,
-      place: place,
-      domain: domain,
-      bio: bio,
-    );
+   final updatedProfile = UserProfile(
+  id: _userProfile!.id,
+  username: username,
+  firstName: firstName,
+  lastName: lastName,
+  avatarUrl: _userProfile!.avatarUrl,
+  place: place,
+  domain: domain,
+  bio: bio,
+);
+await _profileService.updateProfile(updatedProfile);
 
     await refreshUserProfile();
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repair_minds/Providers/auth_provider.dart';
+import 'package:repair_minds/Screen/logs/forget_password.dart';
 import 'package:repair_minds/Screen/logs/new_user_screen.dart';
 import 'package:repair_minds/Screen/main_screens/bottom_nav_screen.dart';
 
@@ -132,7 +133,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         minimumSize: const Size(50, 30),
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
-                      onPressed: null,
                       child: const Text(
                         "Forget Password?",
                         style: TextStyle(
@@ -140,6 +140,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Colors.blueAccent,
                         ),
                       ),
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: ((context) => const ForgotPasswordScreen()) ));
+                      },
                     ),
                   ),
 

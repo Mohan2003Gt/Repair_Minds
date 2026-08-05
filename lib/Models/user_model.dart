@@ -19,6 +19,19 @@ class UserProfile {
     this.bio,
   });
 
+  Map<String, dynamic> toJson() {
+  return {
+    'id': id,
+    'username': username,
+    'first_name': firstName,
+    'last_name': lastName,
+    'avatar_url': avatarUrl,
+    'place': place,
+    'domain': domain,
+    'bio': bio,
+  };
+}
+
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile(
       id: json['id'],

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:repair_minds/Models/post_model.dart';
@@ -93,7 +92,6 @@ Future<void> searchPosts(String query) async {
 
   _setLoading(false);
 }
-// 1. Add these state variables
   List<PostModel> _feedPosts = [];
   List<PostModel> get feedPosts => _feedPosts;
 
@@ -109,11 +107,14 @@ Future<void> searchPosts(String query) async {
     _setLoading(false);
   }
 
-  Future<void> deletePost(int postId) async {
-    await _postService.deletePost(postId);
+ // Inside PostProvider
+  Future<void> deletePost(PostModel post) async {
+    // Pass BOTH the ID and the Image URL to the service
+    await _postService.deletePost(post.id, post.imageUrl);
 
+    // Remove it from the local list using the post.id
     _userPosts.removeWhere(
-      (post) => post.id == postId,
+      (p) => p.id == post.id,
     );
     notifyListeners();
   }

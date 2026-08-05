@@ -44,8 +44,25 @@ class AuthService {
       'place': place,
       'domain': domain,
       'bio': bio,
-    });
+      
+    }
+    
+    );
   }
+  
+  Future<String?>sendPasswordResetEmail(String email)
+  async{
+    
+    try{
+    await _supabase.auth.resetPasswordForEmail(email, redirectTo: 'repairminds://reset-password',
+    );
+    return null;
+
+  }catch(e){
+    return "Error";
+  }
+  }
+  
 
   Future<void> signOut() async {
     await _supabase.auth.signOut();

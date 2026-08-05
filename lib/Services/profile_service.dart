@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:repair_minds/Models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 class ProfileService {
   final SupabaseClient _supabase = Supabase.instance.client;
 
@@ -22,28 +21,12 @@ class ProfileService {
     }
   }
 
-  Future<void> updateProfile({
-    required String username,
-    required String firstName,
-    required String lastName,
-    required String place,
-    required String domain,
-    required String bio,
-  }) async {
-    final userId = _supabase.auth.currentUser!.id;
-
-    await _supabase
-        .from('User_Profiles')
-        .update({
-          'username': username,
-          'first_name': firstName,
-          'last_name': lastName,
-          'place': place,
-          'domain': domain,
-          'bio': bio,
-        })
-        .eq('id', userId);
-  }
+ Future<void> updateProfile(UserProfile profile) async {
+  await _supabase
+      .from('User_Profiles')
+      .update(profile.toJson())
+      .eq('id', profile.id);
+}
 
   Future<String> updateAvatar(
     String userId,
