@@ -111,17 +111,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             _buildTextField(
               controller: usernameController,
               label: "Username",
-              icon: Icons.alternate_email,
             ),
             _buildTextField(
               controller: firstNameController,
               label: "First Name",
-              icon: Icons.person_outline,
             ),
             _buildTextField(
               controller: lastNameController,
               label: "Last Name",
-              icon: Icons.person_outline,
             ),
             const SizedBox(height: 10),
 
@@ -134,17 +131,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             _buildTextField(
               controller: domainController,
               label: "Domain (e.g. Developer, Designer)",
-              icon: Icons.work_outline,
             ),
             _buildTextField(
               controller: placeController,
               label: "Location",
-              icon: Icons.location_on_outlined,
             ),
             _buildTextField(
               controller: bioController,
               label: "Bio",
-              icon: Icons.info_outline,
               maxLines: 3,
             ),
 
@@ -216,7 +210,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget _buildTextField({
     required TextEditingController controller,
     required String label,
-    required IconData icon,
     int maxLines = 1,
   }) {
     return Padding(
@@ -226,7 +219,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         maxLines: maxLines,
         decoration: InputDecoration(
           labelText: label,
-          prefixIcon: Icon(icon, color: Colors.blueAccent),
           filled: true,
           fillColor: Colors.white,
           contentPadding: const EdgeInsets.symmetric(

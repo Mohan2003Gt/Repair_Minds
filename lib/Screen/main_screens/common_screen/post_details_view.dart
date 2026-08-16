@@ -13,25 +13,33 @@ class PostDetailsView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(post.title),
+        title: Text(
+          post.title,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
+        shadowColor: Colors.black,
         elevation: 1, 
         actions: [
           Consumer<SavedPostsProvider>(
-      builder: (context, provider, child) {
-        final isSaved = provider.isPostSaved(post.id);
-        return IconButton(
-          icon: Icon(
-            isSaved ? Icons.bookmark : Icons.bookmark_border,
-            color: isSaved ? Colors.blue : Colors.black,
+            builder: (context, provider, child) {
+              final isSaved = provider.isPostSaved(post.id);
+              return Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: IconButton(
+                  icon: Icon(
+                    isSaved ? Icons.bookmark : Icons.bookmark_border,
+                    color: isSaved ? Colors.blueAccent : Colors.black87,
+                    size: 26,
+                  ),
+                  onPressed: () {
+                    provider.toggleSavePost(post);
+                  },
+                ),
+              );
+            },
           ),
-          onPressed: () {
-            provider.toggleSavePost(post);
-          },
-        );
-      },
-    ),
         ],
       ),
       body: SingleChildScrollView(
@@ -42,10 +50,10 @@ class PostDetailsView extends StatelessWidget {
             Container(
               width: double.infinity,
               height: 300.0,
-              color: Colors.grey.shade200, 
+              color: Colors.grey.shade100, 
               child: Image.network(
                 post.imageUrl,
-                fit: BoxFit.fitWidth, 
+                fit: BoxFit.cover, 
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress == null) return child;
                   return const Center(
@@ -64,7 +72,7 @@ class PostDetailsView extends StatelessWidget {
             ),
             // Post Content
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(24.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -72,7 +80,7 @@ class PostDetailsView extends StatelessWidget {
                   Text(
                     post.title,
                     style: const TextStyle(
-                      fontSize: 28,
+                      fontSize: 26,
                       fontWeight: FontWeight.w800,
                       letterSpacing: -0.5,
                       height: 1.2,
@@ -81,6 +89,7 @@ class PostDetailsView extends StatelessWidget {
                   
                   const SizedBox(height: 12),
 
+                  // Subtitle
                   Text(
                     post.subtitle,
                     style: TextStyle(
@@ -92,16 +101,22 @@ class PostDetailsView extends StatelessWidget {
 
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 24.0),
-                    child: Divider(height: 1, thickness: 1),
+                    child: Divider(height: 1, thickness: 0.5),
                   ),
 
                   // Problem Section Header
-                  const Text(
-                    "Problem",
-                    style: TextStyle(
-                      fontSize: 22, 
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    children: [
+                      const Icon(Icons.build_circle_outlined, color: Colors.blueAccent, size: 24),
+                      const SizedBox(width: 8),
+                      const Text(
+                        "Problem",
+                        style: TextStyle(
+                          fontSize: 20, 
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                   
                   const SizedBox(height: 16),
@@ -109,10 +124,10 @@ class PostDetailsView extends StatelessWidget {
                   // Problem Description
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Colors.grey.shade50,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       border: Border.all(color: Colors.grey.shade200),
                     ),
                     child: Text(

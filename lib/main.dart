@@ -6,6 +6,7 @@ import 'package:repair_minds/Providers/profile_provider.dart';
 import 'package:repair_minds/Providers/saved_posts_provider.dart';
 import 'package:repair_minds/Screen/logs/login_screen.dart';
 import 'package:repair_minds/Screen/main_screens/bottom_nav_screen.dart';
+import 'package:repair_minds/reset_password_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -15,20 +16,17 @@ Future<void> main() async {
     'SUPABASE_URL',
     defaultValue: 'https://xdqgjzauvuqonxiqgret.supabase.co',
   );
+
   const supabaseAnonKey = String.fromEnvironment(
     'SUPABASE_ANON_KEY',
     defaultValue:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkcWdqemF1dnVxb254aXFncmV0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2ODY5MjMsImV4cCI6MjA5OTI2MjkyM30.iOYxnE8vVdKJoaSZ1JSsiQpIhHg9-ZvEqw4GvvC33wk',
   );
 
-  if (supabaseUrl.isNotEmpty && supabaseAnonKey.isNotEmpty) {
-    await Supabase.initialize(
-      url: supabaseUrl,
-      publishableKey: supabaseAnonKey,
-    );
-  } else {
-    debugPrint('Supabase is not initialized');
-  }
+  await Supabase.initialize(
+    url: supabaseUrl,
+    publishableKey: supabaseAnonKey,
+  );
 
   runApp(
     MultiProvider(
@@ -51,15 +49,41 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool _isPasswordRecovery = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Supabase.instance.client.auth.onAuthStateChange.listen((data) {
+      if (data.event == AuthChangeEvent.passwordRecovery) {
+        if (!mounted) return;
+
+        setState(() {
+          _isPasswordRecovery = true;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Supabase.instance.client.auth.currentUser;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
       builder: (context, child) {
-        return SafeArea(child: child!);
+        return SafeArea(
+          child: child!,
+        );
       },
-      home: user != null ? const BottomNavScreen() : const LoginScreen(),
+
+      home: _isPasswordRecovery
+          ? const ResetPasswordScreen() 
+          : user != null
+              ? const BottomNavScreen()
+              : const LoginScreen(),
     );
   }
 }

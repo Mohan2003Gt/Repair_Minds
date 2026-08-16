@@ -68,8 +68,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           alignment: Alignment.center,
 
                           children: [
-                            
-
                             CircleAvatar(
                               radius: 52,
                               backgroundColor: Colors.black,
@@ -156,6 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           style: const TextStyle(
                             fontSize: 15,
                             color: Colors.black87,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(width: 5),
@@ -166,6 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           style: const TextStyle(
                             fontSize: 15,
                             color: Colors.black87,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
@@ -227,8 +227,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
-                          width: 70,
-                          child: IconButton(
+                          width: 130,
+                          child: ElevatedButton.icon(
                             onPressed: () {
                               Navigator.push(
                                 context,
@@ -238,8 +238,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               );
                             },
                             icon: const Icon(Icons.add),
-                            style: IconButton.styleFrom(
+                            label: const Text("Add Post"),
+                            style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white,
+                              foregroundColor: Colors.black,
                               elevation: 5,
                               shadowColor: Colors.black,
                               shape: RoundedRectangleBorder(
@@ -270,9 +272,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 SizedBox(height: 100),
                                 Text(
                                   "No posts found",
-                                  style: TextStyle(color: Colors.grey,fontSize: 20 ),
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 20,
+                                  ),
                                 ),
-                              
                               ],
                             ),
                           )
@@ -322,7 +326,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          post.title, 
+                                          post.title,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(

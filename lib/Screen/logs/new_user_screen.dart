@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repair_minds/Providers/auth_provider.dart';
 import 'package:repair_minds/Screen/logs/ac_success_screen.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -77,19 +78,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Create Account',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: SafeArea(
         child: Form(
           key: _formKey,
           child: ListView(
             padding: const EdgeInsets.all(20),
             children: [
-              const Text(
-                'Create Account',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-
-              // --- Auth Fields ---
               TextFormField(
                 controller: _emailCtrl,
                 keyboardType: TextInputType.emailAddress,
@@ -98,8 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                  }
+                  if (value == null || value.trim().isEmpty) {}
                   return 'Please enter Email';
                 },
               ),
@@ -117,7 +116,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         _isPasswordVisible = !_isPasswordVisible;
                       });
                     },
-                    // 3. Switch the icon based on the state
                     icon: Icon(
                       _isPasswordVisible
                           ? Icons.visibility
@@ -143,7 +141,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               const SizedBox(height: 12),
 
-              // --- Profile Fields ---
               TextFormField(
                 controller: _usernameCtrl,
                 decoration: const InputDecoration(
@@ -221,7 +218,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
               TextFormField(
                 controller: _bioCtrl,
-                maxLines: 3, // Makes the bio field taller
+                maxLines: 3,
                 decoration: const InputDecoration(
                   labelText: 'Bio',
                   border: OutlineInputBorder(),

@@ -19,26 +19,32 @@ class PostService {
     }
   }
 
- Future<void> deletePost(int postId, String imageUrl) async {
+  Future<void> deletePost(int postId, String imageUrl) async {
     try {
       if (imageUrl.isNotEmpty) {
         final uri = Uri.parse(imageUrl);
-        final fileName = uri.pathSegments.last; 
-        
-        await _supabase.storage.from('post_images').remove([fileName]);
+        final fileName = uri.pathSegments.last;
+
+        await _supabase.storage.from('posts').remove([fileName]);
       }
     } catch (e) {
       return;
-    } 
+    }
 
-    await _supabase.from('posts').delete().eq('id', postId);
+    await _supabase.from('Posts').delete().eq('id', postId);
   }
-  Future<List<PostModel>> searchPostsByTitle(String query) async {
+
+  Future<List<PostModel>> searchPostsByTitle(
+    String query,
+    int start,
+    int limit,
+  ) async {
     try {
       final data = await _supabase
           .from('Posts')
           .select()
-          .ilike('title', '%${query.trim()}%');
+          .ilike('title', '%${query.trim()}%')
+          .range(start, start + limit - 1);
 
       return (data as List)
           .map((postJson) => PostModel.fromJson(postJson))
@@ -49,13 +55,18 @@ class PostService {
     }
   }
 
-  Future<List<PostModel>> fetchPostsByDomain(String domain) async {
+  Future<List<PostModel>> fetchPostsByDomain(
+    String domain,
+    int start,
+    int limit,
+  ) async {
     try {
       final data = await _supabase
           .from('Posts')
           .select()
           .ilike('title', '%$domain%')
-          .order('created_at', ascending: false);
+          .order('created_at', ascending: false)
+          .range(start, start + limit - 1);
 
       return (data as List)
           .map((postJson) => PostModel.fromJson(postJson))

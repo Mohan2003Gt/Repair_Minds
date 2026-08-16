@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repair_minds/Providers/post_provider.dart';
-import 'package:repair_minds/Screen/main_screens/common_screen/post_details_view.dart'; 
-import 'package:repair_minds/Services/profile_service.dart'; 
+import 'package:repair_minds/Screen/main_screens/common_screen/post_details_view.dart';
+import 'package:repair_minds/Services/profile_service.dart';
 import 'package:repair_minds/Models/user_model.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -14,19 +14,51 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (!_scrollController.hasClients) return;
+
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200              
+        
+        ) {
+      final query = _searchController.text.trim();
+
+      if (query.isNotEmpty) {
+        context.read<PostProvider>().loadMoreSearchPosts(query);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _scrollController.dispose();
+    
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search Posts',style: TextStyle(fontWeight: FontWeight.bold),),
+        title: const Text(
+          'Search Posts',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.white,
         shadowColor: Colors.black,
         elevation: 3,
       ),
       body: Column(
         children: [
-          // Search Bar
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
@@ -43,80 +75,114 @@ class _SearchScreenState extends State<SearchScreen> {
               },
             ),
           ),
-          
-          // Search Results
           Expanded(
             child: Consumer<PostProvider>(
               builder: (context, provider, child) {
                 if (provider.isLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
 
-                if (provider.searchResults.isEmpty && _searchController.text.isNotEmpty) {
-                  return const Center(child: Text('No posts found.'));
+                if (provider.searchResults.isEmpty &&
+                    _searchController.text.isNotEmpty) {
+                  return const Center(
+                    child: Text('No posts found.'),
+                  );
                 }
-                
+
                 if (provider.searchResults.isEmpty) {
                   return const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.search, size: 100, color: Colors.grey,),
+                        Icon(
+                          Icons.search,
+                          size: 100,
+                          color: Colors.grey,
+                        ),
                         Text(
                           "Search a Solution For Problem",
                           style: TextStyle(color: Colors.grey),
-                        )
+                        ),
                       ],
                     ),
                   );
                 }
 
                 return ListView.builder(
-                  itemCount: provider.searchResults.length,
+                  controller: _scrollController,
+                  itemCount: provider.searchResults.length +
+                      (provider.searchHasMore ? 1 : 0),
                   itemBuilder: (context, index) {
+                    if (index == provider.searchResults.length) {
+                      return const Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+
                     final post = provider.searchResults[index];
-                    
+
                     return GestureDetector(
                       onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PostDetailsView(post: post),
-                      ),
-                    );
-                  },
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                PostDetailsView(post: post),
+                          ),
+                        );
+                      },
                       child: Card(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             FutureBuilder<UserProfile?>(
-                              future: ProfileService().fetchUserProfile(post.userId),
+                              future: ProfileService()
+                                  .fetchUserProfile(post.userId),
                               builder: (context, snapshot) {
                                 String displayName = 'Loading...';
                                 String avatarUrl = '';
                                 bool hasAvatar = false;
-                      
-                                if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+
+                                if (snapshot.connectionState ==
+                                        ConnectionState.done &&
+                                    snapshot.hasData) {
                                   final profile = snapshot.data!;
-                                  displayName = profile.username ?? 'Unknown User';
+                                  displayName =
+                                      profile.username ?? 'Unknown User';
                                   avatarUrl = profile.avatarUrl ?? '';
                                   hasAvatar = avatarUrl.isNotEmpty;
                                 }
-                      
+
                                 return Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Row(
                                     children: [
                                       CircleAvatar(
                                         radius: 16,
-                                        backgroundColor: Colors.blueAccent,
-                                        backgroundImage: hasAvatar ? NetworkImage(avatarUrl) : null,
+                                        backgroundColor:
+                                            Colors.blueAccent,
+                                        backgroundImage: hasAvatar
+                                            ? NetworkImage(avatarUrl)
+                                            : null,
                                         child: !hasAvatar
                                             ? Text(
-                                                displayName != 'Loading...' && displayName != 'Unknown User' && displayName.isNotEmpty
-                                                    ? displayName[0].toUpperCase()
+                                                displayName !=
+                                                            'Loading...' &&
+                                                        displayName !=
+                                                            'Unknown User' &&
+                                                        displayName.isNotEmpty
+                                                    ? displayName[0]
+                                                        .toUpperCase()
                                                     : '?',
-                                                style: const TextStyle(color: Colors.white, fontSize: 14),
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 14,
+                                                ),
                                               )
                                             : null,
                                       ),
@@ -133,9 +199,6 @@ class _SearchScreenState extends State<SearchScreen> {
                                 );
                               },
                             ),
-                            // ----------------------------------------------------
-                      
-                            // Your existing Post Image Container
                             Container(
                               width: double.infinity,
                               height: 250,
@@ -143,36 +206,37 @@ class _SearchScreenState extends State<SearchScreen> {
                                 color: Colors.grey.shade300,
                                 image: DecorationImage(
                                   image: NetworkImage(post.imageUrl),
-                                  fit: BoxFit.fill, 
-                                )
-                              ),               
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
                             ),
-                      
-                            // Your existing Post Title
                             Padding(
                               padding: const EdgeInsets.all(5),
                               child: Title(
-                                color: Colors.black, 
+                                color: Colors.black,
                                 child: Text(
                                   post.title,
-                                  style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                                )
-                              )
+                                  style: const TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                             ),
-                      
-                            // Your existing Post Subtitle
                             Padding(
                               padding: const EdgeInsets.all(10),
                               child: Title(
-                                color: Colors.black, 
+                                color: Colors.black,
                                 child: Text(
                                   post.subtitle,
-                                  style: const TextStyle(fontSize: 15),
-                                )
-                              )
-                            )
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
-                        )
+                        ),
                       ),
                     );
                   },
@@ -184,4 +248,4 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
     );
   }
-}    
+}
