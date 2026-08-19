@@ -8,24 +8,16 @@ import 'package:repair_minds/Screen/logs/login_screen.dart';
 import 'package:repair_minds/Screen/main_screens/bottom_nav_screen.dart';
 import 'package:repair_minds/reset_password_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  const supabaseUrl = String.fromEnvironment(
-    'SUPABASE_URL',
-    defaultValue: 'https://xdqgjzauvuqonxiqgret.supabase.co',
-  );
-
-  const supabaseAnonKey = String.fromEnvironment(
-    'SUPABASE_ANON_KEY',
-    defaultValue:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkcWdqemF1dnVxb254aXFncmV0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2ODY5MjMsImV4cCI6MjA5OTI2MjkyM30.iOYxnE8vVdKJoaSZ1JSsiQpIhHg9-ZvEqw4GvvC33wk',
-  );
+  await dotenv.load(fileName: ".env");
 
   await Supabase.initialize(
-    url: supabaseUrl,
-    publishableKey: supabaseAnonKey,
+    url: dotenv.env['SUPABASE_URL']!,
+    publishableKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
 
   runApp(

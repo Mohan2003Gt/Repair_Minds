@@ -29,9 +29,6 @@ class AuthProvider extends ChangeNotifier {
 
       _setLoading(false);
       return null;
-    } on AuthException catch (e) {
-      _setLoading(false);
-      return e.message;
     } catch (e) {
       _setLoading(false);
       return "Something went wrong.";
