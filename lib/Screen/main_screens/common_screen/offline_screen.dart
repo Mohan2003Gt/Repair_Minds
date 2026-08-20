@@ -30,7 +30,9 @@ class OfflineScreen extends StatelessWidget {
                    child: const CircularProgressIndicator(
                     color: Colors.grey,
                                    ),
-                 )
+                 ),
+                 const SizedBox(height: 50),
+                Text("Still you can watch offline post",style: TextStyle(color: Colors.grey),)
           ],
         ),
       ),
