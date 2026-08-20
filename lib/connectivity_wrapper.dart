@@ -16,13 +16,12 @@ class ConnectivityWrapper extends StatelessWidget {
             snapshot.hasData &&
             snapshot.data!.contains(ConnectivityResult.none);
 
-        return Stack(
-          children: [
-            child,
+        if (isOffline) {
+          return const OfflineScreen();
+        }
 
-            if (isOffline) const Positioned.fill(child: OfflineScreen()),
-          ],
-        );
+        // Otherwise, return the normal screen
+        return child;
       },
     );
   }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:repair_minds/Screen/main_screens/common_screen/offline_screen.dart';
 import 'package:repair_minds/Screen/main_screens/home_screen.dart';
 import 'package:repair_minds/Screen/main_screens/profile/profile_screen.dart';
 import 'package:repair_minds/Screen/main_screens/saved_posts_screen.dart';
 import 'package:repair_minds/Screen/main_screens/search_screen.dart';
+import 'package:repair_minds/connectivity_wrapper.dart'; 
 
 class BottomNavScreen extends StatefulWidget {
   const BottomNavScreen({super.key});
@@ -15,12 +15,14 @@ class BottomNavScreen extends StatefulWidget {
 class _BottomNavScreenState extends State<BottomNavScreen> {
   int _currentIndex = 0;
 
+  // 👇 The wrapper is applied individually here
   final List<Widget> _screens = [
-    const OfflineScreen(),
-    const SearchScreen(),
+    const ConnectivityWrapper(child: HomeScreen()),
+    const ConnectivityWrapper(child: SearchScreen()),
     const SavedPostsScreen(),
-    const ProfileScreen(),
+    const ConnectivityWrapper(child: ProfileScreen()),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +31,6 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         currentIndex: _currentIndex,
         fixedColor: Colors.black,
         unselectedItemColor: Colors.grey,
-
         showUnselectedLabels: false,
         onTap: (index) {
           setState(() {
