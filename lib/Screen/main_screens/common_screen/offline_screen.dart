@@ -16,15 +16,15 @@ class OfflineScreen extends StatelessWidget {
               size: 100,
               color: Colors.grey,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             Text(
               'No Internet Connection',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 7),
             Text(
               'Please check your network settings.',
               style: TextStyle(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repair_minds/Screen/main_screens/common_screen/offline_screen.dart';
 import 'package:repair_minds/Screen/main_screens/home_screen.dart';
 import 'package:repair_minds/Screen/main_screens/profile/profile_screen.dart';
 import 'package:repair_minds/Screen/main_screens/saved_posts_screen.dart';
@@ -15,7 +16,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    const HomeScreen(),
+    const OfflineScreen(),
     const SearchScreen(),
     const SavedPostsScreen(),
     const ProfileScreen(),
@@ -41,7 +42,10 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
             icon: Icon(Icons.search, size: 30),
             label: 'Search',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.bookmark_border), label: 'Saved'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bookmark_border),
+            label: 'Saved',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),

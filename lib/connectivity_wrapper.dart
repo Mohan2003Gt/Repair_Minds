@@ -10,20 +10,19 @@ class ConnectivityWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<ConnectivityResult>>(
-      stream: Connectivity().onConnectivityChanged, 
+      stream: Connectivity().onConnectivityChanged,
       builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return child;
-        }
+        final bool isOffline =
+            snapshot.hasData &&
+            snapshot.data!.contains(ConnectivityResult.none);
 
-        final results = snapshot.data!;
-        
-        // Check if the device has completely lost connection
-        if (results.contains(ConnectivityResult.none)) {
-          return const OfflineScreen();
-        }
+        return Stack(
+          children: [
+            child,
 
-        return child;
+            if (isOffline) const Positioned.fill(child: OfflineScreen()),
+          ],
+        );
       },
     );
   }
