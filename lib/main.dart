@@ -9,11 +9,12 @@ import 'package:repair_minds/Screen/main_screens/bottom_nav_screen.dart';
 import 'package:repair_minds/reset_password_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'connectivity_wrapper.dart'; 
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: ".env"); 
 
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL']!,
@@ -32,7 +33,7 @@ Future<void> main() async {
     ),
   );
 }
- 
+
 class MyApp extends StatefulWidget { 
   const MyApp({super.key});
 
@@ -66,8 +67,10 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
 
       builder: (context, child) {
-        return SafeArea(
-          child: child!,
+        return ConnectivityWrapper(
+          child: SafeArea(
+            child: child!,
+          ),
         );
       },
 
