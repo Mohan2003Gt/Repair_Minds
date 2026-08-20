@@ -2,7 +2,7 @@
 
 A Flutter-based social platform for sharing and discovering repair and maintenance solutions. Users can post repair problems, solutions, and expertise while connecting with others in the community.
 
-## 📱 Overview
+##  Overview
 
 Repair Minds is a cross-platform mobile application built with Flutter that enables users to:
 - Share repair and maintenance problems with detailed descriptions and images
@@ -12,16 +12,16 @@ Repair Minds is a cross-platform mobile application built with Flutter that enab
 - Search for specific repair topics and solutions
 - Authenticate securely with email/password authentication
 
-## ✨ Key Features
+##  Key Features
 
-### 🔐 Authentication & Account Management
+### Authentication & Account Management
 - **User Registration**: Create new accounts with email verification
 - **Login/Logout**: Secure authentication using Supabase
 - **Password Reset**: Forgot password functionality with email verification
 - **Account Confirmation**: Email confirmation for new accounts
 - **Session Management**: Persistent user sessions across app restarts
 
-### 📝 Posts & Content
+### Posts & Content
 - **Create Posts**: Share repair problems with:
   - Title and subtitle
   - Detailed problem description
@@ -32,12 +32,12 @@ Repair Minds is a cross-platform mobile application built with Flutter that enab
 - **Post Details**: View complete post information with images
 - **Post Management**: Create and manage your own posts
 
-### 💾 Saved Posts
+### Saved Posts
 - **Save Posts**: Bookmark posts for later reference
 - **Saved Collection**: View all your saved posts in one place
 - **Quick Access**: Easy retrieval of valuable repair solutions
 
-### 👤 User Profiles
+### User Profiles
 - **Profile Information**:
   - Username
   - First and last name
@@ -48,12 +48,12 @@ Repair Minds is a cross-platform mobile application built with Flutter that enab
 - **Profile Viewing**: View other users' profiles
 - **Profile Management**: Edit and update personal profile information
 
-### 🔍 Discovery
+### Discovery
 - **Search Functionality**: Find posts by keywords, topics, or users
 - **Home Feed**: Scrollable feed of recent posts from the community
 - **Navigation**: Easy access to all sections via bottom navigation
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 - **Framework**: Flutter 3.12.2+
@@ -84,7 +84,7 @@ Repair Minds is a cross-platform mobile application built with Flutter that enab
 - **flutter_lints**: Code quality and best practices
 - **flutter_test**: Widget testing framework
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 lib/
@@ -117,7 +117,7 @@ lib/
     └── profile_service.dart # Profile API calls
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Flutter SDK 3.12.2 or higher
@@ -167,7 +167,7 @@ flutter run -d ios
 flutter run -d web
 ```
 
-## 📚 API Structure
+## API Structure
 
 ### Authentication Service
 - User registration and login
@@ -194,7 +194,7 @@ flutter run -d web
 - Fetch all saved posts
 - Check if post is saved
 
-## 🎨 UI/UX Features
+## UI/UX Features
 
 - **Material Design 3**: Modern and consistent UI across all screens
 - **Responsive Layout**: Adapts to different screen sizes
@@ -204,7 +204,7 @@ flutter run -d web
 - **Loading States**: Visual feedback during API calls
 - **Error Handling**: User-friendly error messages
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 ```dart
@@ -216,7 +216,7 @@ SUPABASE_ANON_KEY # Your Supabase anonymous key
 - User preferences stored using `shared_preferences`
 - Offline support for cached data
 
-## 📋 App Workflow
+## App Workflow
 
 ### User Registration Flow
 1. User navigates to "New User" screen
@@ -241,7 +241,7 @@ SUPABASE_ANON_KEY # Your Supabase anonymous key
 4. Can view post author's profile
 5. Can navigate to profile section to manage saved posts
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please follow these guidelines:
 1. Create a feature branch
@@ -249,15 +249,11 @@ Contributions are welcome! Please follow these guidelines:
 3. Test thoroughly
 4. Submit a pull request
 
-## 📝 License
+## License
 
 This project is private and intended for internal use only.
 
-## 📧 Support
-
-For issues or questions, please contact the development team.
-
-## 🔐 Security
+## Security
 
 - Secure authentication via Supabase
 - No sensitive data stored locally
@@ -265,7 +261,7 @@ For issues or questions, please contact the development team.
 - Email verification for account protection
 - Password reset functionality for account recovery
 
-## 🎯 Future Enhancements
+## Future Enhancements
 
 - Real-time notifications for comments and likes
 - Direct messaging between users
