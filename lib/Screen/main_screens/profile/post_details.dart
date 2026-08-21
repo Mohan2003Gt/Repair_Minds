@@ -6,8 +6,49 @@ import 'package:repair_minds/Providers/saved_posts_provider.dart';
 
 class PostDetailsScreen extends StatelessWidget {
   final PostModel post;
-  
+
   const PostDetailsScreen({super.key, required this.post});
+
+  void delete(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Text(
+          "Delete",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        content: const Text("Are you sure you want to delete?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel", style: TextStyle(color: Colors.grey)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.redAccent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            onPressed: () async {
+              await context.read<PostProvider>().deletePost(post);
+              if (!context.mounted) return;
+              Navigator.pop(context);
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: Colors.red,
+                  content: Text('${post.title} Post Was Deleted'),
+                ),
+              );
+            },
+            child: const Text("Delete", style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +62,7 @@ class PostDetailsScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         shadowColor: Colors.black,
-        elevation: 1, 
+        elevation: 1,
         actions: [
           Consumer<SavedPostsProvider>(
             builder: (context, provider, child) {
@@ -51,10 +92,10 @@ class PostDetailsScreen extends StatelessWidget {
             Container(
               width: double.infinity,
               height: 300.0,
-              color: Colors.grey.shade100, 
+              color: Colors.grey.shade100,
               child: Image.network(
                 post.imageUrl,
-                fit: BoxFit.cover, 
+                fit: BoxFit.cover,
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress == null) return child;
                   return const Center(
@@ -64,9 +105,16 @@ class PostDetailsScreen extends StatelessWidget {
                 errorBuilder: (context, error, stackTrace) => const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.broken_image_rounded, size: 64, color: Colors.grey),
+                    Icon(
+                      Icons.broken_image_rounded,
+                      size: 64,
+                      color: Colors.grey,
+                    ),
                     SizedBox(height: 8),
-                    Text("Image not available", style: TextStyle(color: Colors.grey)),
+                    Text(
+                      "Image not available",
+                      style: TextStyle(color: Colors.grey),
+                    ),
                   ],
                 ),
               ),
@@ -87,14 +135,14 @@ class PostDetailsScreen extends StatelessWidget {
                       height: 1.2,
                     ),
                   ),
-                  
+
                   const SizedBox(height: 12),
 
                   // Subtitle
                   Text(
                     post.subtitle,
                     style: TextStyle(
-                      fontSize: 18, 
+                      fontSize: 18,
                       color: Colors.grey.shade600,
                       fontWeight: FontWeight.w500,
                     ),
@@ -108,18 +156,22 @@ class PostDetailsScreen extends StatelessWidget {
                   // Problem Section Header
                   Row(
                     children: [
-                      const Icon(Icons.build_circle_outlined, color: Colors.blueAccent, size: 24),
+                      const Icon(
+                        Icons.build_circle_outlined,
+                        color: Colors.blueAccent,
+                        size: 24,
+                      ),
                       const SizedBox(width: 8),
                       const Text(
                         "Problem",
                         style: TextStyle(
-                          fontSize: 20, 
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: 16),
 
                   // Problem Description
@@ -132,25 +184,28 @@ class PostDetailsScreen extends StatelessWidget {
                       border: Border.all(color: Colors.grey.shade200),
                     ),
                     child: Text(
-                      post.problem, 
+                      post.problem,
                       style: const TextStyle(
                         fontSize: 16,
-                        height: 1.6, 
+                        height: 1.6,
                         color: Colors.black87,
                       ),
                     ),
                   ),
-                  
-                   Center(
-              child: ElevatedButton(
-                onPressed: () async {
-                  context.read<PostProvider>().deletePost(post);
-                },
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
 
-                child: Text("DELETE", style: TextStyle(color: Colors.white)),
-              ),
-            ),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () => delete(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                      ),
+
+                      child: Text(
+                        "DELETE",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

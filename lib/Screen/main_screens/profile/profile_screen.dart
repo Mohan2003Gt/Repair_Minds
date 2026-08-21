@@ -31,6 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final user = profileProvider.userProfile;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           "Profile",

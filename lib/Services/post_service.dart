@@ -39,6 +39,7 @@ class PostService {
     String query,
     int start,
     int limit,
+  
   ) async {
     try {
       final data = await _supabase
@@ -51,7 +52,6 @@ class PostService {
           .map((postJson) => PostModel.fromJson(postJson))
           .toList();
     } catch (e) {
-      debugPrint('Error searching posts: $e');
       return [];
     }
   }
