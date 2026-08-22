@@ -71,11 +71,9 @@ Repair Minds is a cross-platform mobile application built with Flutter that enab
 - **provider**: State management
 - **supabase_flutter**: Backend services and authentication
 - **image_picker**: Camera and gallery image selection
-- **http**: HTTP client for API requests
 - **dio**: Advanced HTTP client with interceptors
 - **shared_preferences**: Local data persistence
 - **path_provider**: File system paths
-- **go_router**: Navigation and routing
 - **cupertino_icons**: iOS-style icons
 
 ### Development Tools
@@ -143,7 +141,6 @@ lib/
    - Create required tables in Supabase:
      - `users` table for user profiles
      - `posts` table for posts
-     - `saved_posts` table for bookmarked posts
 
 4. **Run the app**
    ```bash
